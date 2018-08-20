@@ -1,0 +1,134 @@
+{% extends "base_index.html" %}
+{%load staticfiles  %}
+{% block content_block %}
+    <div class="right_col" role="main" style="height: 100%;margin-right: auto">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="container">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="height: auto;margin-top: 30px">
+                <div class="x_panel">
+                    <div class="x_content">
+
+                        <form class="form-horizontal form-label-left" novalidate>
+
+
+                            <span class="section">اطلاعات شخصی</span>
+                            <img src="{% static "build/images/img.jpg"%}" alt="..." class="img-circle profile_img" style="width: 10%;margin-right: 10px;margin-top:10px;margin-bottom: 10px ">
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name" style="text-align: right;width: 135px;padding-top: 0px">نام :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.first_name }}
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email"style="text-align: right;width: 135px;padding-top: 0px">نام خانوادگی :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.last_name }}
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email"style="text-align: right;width: 135px;padding-top: 0px">ایمیل :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.email }}
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number"style="text-align: right;width: 135px;padding-top: 0px">نام کاربری :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.username }}
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number"style="text-align: right;width: 135px;padding-top: 0px">نقش کاربر :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {% if request.user.is_superuser %}
+                                        مدیر ارشد
+                                    {% elif request.user.is_staff %}
+                                        مدیر
+                                    {% else %}
+                                        کاربر معمولی
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website"style="text-align: right;width: 135px;padding-top: 0px"> آخرین بازدید :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.last_login }}
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website"style="text-align: right;width: 135px;padding-top: 0px">  عضویت در سایت :
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ request.user.date_joined }}
+                                </div>
+                            </div>
+                            <!--<div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">شغل
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="occupation"
+                                           data-validate-length-range="5,20"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label for="password" class="control-label col-md-3">رمز عبور</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="password" type="password" name="password" data-validate-length="6,8"
+                                           class="form-control col-md-7 col-xs-12" required="required">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">تکرار رمز عبور</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="password2" type="password" name="password2"
+                                           data-validate-linked="password" class="form-control col-md-7 col-xs-12"
+                                           required="required">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">تلفن <span
+                                        class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="tel" id="telephone" name="phone" required="required"
+                                           data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">محل نوشتن <span
+                                        class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="textarea" required="required" name="textarea"
+                                              class="form-control col-md-7 col-xs-12"></textarea>
+                                </div>
+                            </div>-->
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3" style="margin-right: 0px">
+                                        <input type="button" class="btn btn-primary" value="بازگشت" onclick="window.location.href='{% url "app1:dashboard" %}'" />
+                                        <input type="button" class="btn btn-success" value="تغیر اطلاعات" onclick="window.location.href='{% url "app1:user_info_edit" %}'" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+</div>
+{% endblock content_block %}

@@ -1,0 +1,21 @@
+{% extends "base_index.html" %}
+{% block content_block %}
+<div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2 style="width: 500px;margin-bottom: 20px"><i class="fa fa-align-left"></i>فرم درخواست </h2>
+                         <form role="form" type="submit" method="post" enctype="multipart/form-data"  >
+                          {% csrf_token %}
+
+                             <div style="width: 500px;margin-bottom:50px"> نوع درخواست: {{ form.combo_kind }}</div>
+                             <div style="width: 500px;margin-bottom: 50px;margin-left: 400px;"> <br>       موضوع: <br>{{ form.title }} <br></div>
+                             <div style="width: 500px;margin-bottom: 50px;margin-left: 400px;"> <br>      مهلت: <br>{{ form.dead_line }}<br></div>
+                             <div style="width: 500px;margin-bottom: 50px;margin-left: 400px;">  <br>       شرح: <br>{{ form.ex_request }}<br></div>
+                             <input type="button" class="btn btn-primary" value="انصراف" onclick="window.location.href='{% url "app1:dashboard" %}'" />
+                             <input type="submit" class="btn btn-success" value="ثبت تغیرات" onclick="window.location.href='{% url "app1:list_letter" %}'" />
+                         </form>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+</div>
+{% endblock content_block %}

@@ -1,0 +1,97 @@
+{% extends "base_index.html" %}
+{% block content_block %}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel"style="width: 1000px">
+                    <div class="x_title">
+                        <h2><i class="fa fa-align-left"></i> لیست درخواست ها</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <form method="get" role="search" accept-charset="UTF-8">
+                           <input  name="q" type="text"style="float: left ;height:0px;margin-right: 680px;margin-top: 15px" class="fa fa-search">
+                           <input type="submit" role="button" style="margin-right: 600px;height: 31px;margin-right: 600px;float: left " value="جستجو" >
+                    </form>
+
+                        <!-- start accordion -->
+                        <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                                   aria-controls="collapseOne">
+                                    <h4 class="panel-title">همه</h4>
+                                </a>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div style="padding: 0px" class="panel-body">
+                                    <form method="post" role="form" enctype="multipart/form-data" action="{% url "app1:delete_request" %}">
+                                        {% csrf_token %}
+                                        <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <td><input type="checkbox" onclick="toggle(this)"></td>
+                                                        <th style="padding: 0 5px 10px 10px;">عنوان</th>
+                                                        <th style="padding: 0 5px 10px 10px;">مهلت</th>
+                                                        <th style="padding: 0 5px 10px 10px;">کاربر</th>
+                                                        <th style="padding: 0 5px 10px 0;">شرح درخواست</th>
+                                                        <th style="padding: 0 5px 10px 0;">نوع درخواست</th>
+                                                        <th style="padding: 0 5px 10px 0;">زمان</th>
+                                                        <th style="padding: 0 5px 10px 0;">ویرایش</th>
+
+                                                    </tr>
+                                                    {% if request.user.is_superuser %}
+                                                        {% for object in  obj_of_request %}
+                                                            <tr>
+                                                                <td style="margin: 0"><input type="checkbox" class="nameCheckBox" name="checks" value="{{ object.id }}"></td>
+                                                                <td> {{ object.title }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.dead_line }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.r_user }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.ex_request }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.combo_kind }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.time_saved }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> <a href="update_view.html">...</a></td>
+
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% elif not  request.user.is_superuser %}
+                                                        {% for object in  obj_of_request %}
+                                                            {% if request.user.username == object.r_user.username%}
+                                                            <tr>
+                                                                <td style="margin: 0"><input type="checkbox" class="nameCheckBox" name="checks" value="{{ object.id }}"></td>
+                                                                <td> {{ object.title }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.dead_line }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.r_user }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.ex_request }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.combo_kind }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> {{ object.time_saved }}</td>
+                                                                <td style="padding: 0 5px 10px 10px;"> <a href="updating">...</a></td>
+                                                              </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </thead>
+                                        </table>
+                                        <input type="button" class="btn btn-success" value="نوشتن درخواست" onclick="window.location.href='{% url "app1:letter" %}'" />
+                                        <input type="submit" class="btn btn-warning" value="حذف درخواست" name="deletebutton"  />
+                                    {% for obj in obj_of_delete %}
+                                       obj.delete()
+
+                                    {% endfor %}
+
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+{% endblock %}
+{% block cust_script %}
+    <script language="JavaScript">
+        function toggle(source) {
+            checkboxs = document.getElementsByName('checks');
+            for (var i = 0 ;i<checkboxs.length;i++)
+                checkboxs[i].checked = source.checked;
+        }
+    </script>
+{% endblock cust_script %}

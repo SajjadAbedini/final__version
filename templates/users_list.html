@@ -1,0 +1,136 @@
+{% extends "base_index.html" %}
+{% block content_block %}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><i class="fa fa-align-left"></i> لیست کاربران</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <!-- start accordion -->
+                        <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                                   aria-controls="collapseOne">
+                                    <h4 class="panel-title">همه</h4>
+                                </a>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div style="padding: 0px" class="panel-body">
+                                    <form method="post" action="{% url "app1:users_list_select" %}"enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="padding: 5.5px "><input type="checkbox" onclick="toggle(this)"></td>
+                                                        <th style="padding: 0 5px 10px 10px;">نام‌کاربری</th>
+                                                        <th style="padding: 0 5px 10px 10px;">نام</th>
+                                                        <th style="padding: 0 5px 10px 10px;">نام‌خانوادگی</th>
+                                                        <th style="padding: 0 5px 10px 0;">آی دی</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for item in query_results %}
+                                                        <tr>
+                                                            <td style="padding: 15px 5px 10px 10px;"><input style="margin: 0" type="checkbox" class="nameCheckBox" name="checks" value="{{ item.id }}" ></td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.username }}</td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.first_name }}</td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.last_name }}</td>
+                                                            <td style="padding: 15px 5px 10px 0;">{{ item.id }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                        </table>
+                                        <input type="button" class="btn btn-success" value="اضافه کردن کاربر" onclick="window.location.href='{% url "app1:register" %}'" />
+                                        <input type="submit" class="btn btn-warning" value="حذف کاربر" name="submitbutton" />
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for gr in groups %}
+                                <div class="panel">
+                                <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                   aria-controls="collapseTwo">
+                                    <h4 class="panel-title">{{ gr.name }}</h4>
+                                </a>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <form method="post" action="{% url "app1:users_list_select" %}">{% csrf_token %}
+                                        <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="padding: 5.5px "><input type="checkbox" onclick="toggle(this)"></td>
+                                                        <th style="padding: 0 5px 10px 10px;">نام‌کاربری</th>
+                                                        <th style="padding: 0 5px 10px 10px;">نام</th>
+                                                        <th style="padding: 0 5px 10px 10px;">نام‌خانوادگی</th>
+                                                        <th style="padding: 0 5px 10px 0;">آی دی</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for item in query_results %}
+                                                        <tr>
+                                                            <td style="padding: 15px 5px 10px 10px;"><input style="margin: 0" type="checkbox" class="nameCheckBox" name="checks" value="{{ item.id }}" ></td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.username }}</td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.first_name }}</td>
+                                                            <td style="padding: 15px 5px 10px 10px;">{{ item.last_name }}</td>
+                                                            <td style="padding: 15px 5px 10px 0;">{{ item.id }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                        </table>
+                                        <input type="button" class="btn btn-success" value="اضافه کردن کاربر" onclick="window.location.href='{% url "app1:register" %}'" />
+                                        <input type="submit" class="btn btn-warning" value="حذف کاربر" name="submitbutton" />
+                                        {% for foo in queryset %}
+                                            foo.delete()
+                                        {% endfor %}
+
+                                    </form>
+                                    </div>
+                                </div>
+                                </div>
+                                <!--<div class="panel">
+                                <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                   aria-controls="collapseThree">
+                                    <h4 class="panel-title">آیتم های گروه بندی شده #3</h4>
+                                </a>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <p><strong>اطلاعات جمع آوری شده مورد 3</strong>
+                                        </p>
+                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                        کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان
+                                        جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه
+                                        ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می
+                                        توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به
+                                        پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته
+                                        اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                                    </div>
+                                </div>
+                            </div>-->
+                            {% endfor %}
+                        </div>
+                        <!-- end of accordion -->
+
+
+                    </div>
+                </div>
+            </div>
+{% endblock content_block %}
+{% block cust_script %}
+    <script language="JavaScript">
+        function toggle(source) {
+            checkboxs = document.getElementsByName('checks');
+            for (var i = 0 ;i<checkboxs.length;i++)
+                checkboxs[i].checked = source.checked;
+
+        }
+    </script>
+{% endblock cust_script %}
